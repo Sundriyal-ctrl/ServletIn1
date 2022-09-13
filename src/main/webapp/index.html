@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body class="container py-3">
+<center>
+   <div class="col-sm-5 card shadow" style="padding:10px;position:fixed;z-index:1;display:none;margin-left:250px" id="modal">
+      <div>
+          <span class="text-center" style="font-weight:600">Update</span><span style="float:right"><button class="btn btn-info" id="close">Close</button></span>
+          <form style="padding-top:20px">
+              <input type="text"  id="name1" class="form-control" placeholder="Enter Name" /><br>
+              <input type="text"  id="pass1" class="form-control" placeholder="Enter Password" readonly/><br>
+              <input type="submit" id="insert1" value="Login" class="btn btn-warning" style="color:white;float:left"/>
+          </form>
+      </div>
+   </div>
+</center>
+
+
+<div class="alert alert-success" id="message" style="display:none;position:fixed"></div>
+
+<div class="row shadow" style="margin-top:100px">
+
+    <div class="col-sm-6  border-right" style="padding:30px" >
+        <h2 class="text-center">Login</h2>
+        <form  >
+            <input type="text"  id="name" class="form-control" placeholder="Enter Name"/><br>
+            <input type="password"  id="pass" class="form-control" placeholder="Enter Password"/><br>
+            <input type="submit" id="insert" value="Login" class="btn btn-warning" style="color:white"/>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <input type="search" placeholder="Search By Name" class="form-control" id="searchname"/><br>
+        <table class="table table-responsive">
+          <thead class="table-dark">
+             <tr>
+                 <th>USERNAME</th>
+                 <th>PASSWORD</th>
+                 <th>UPDATE</th>
+                 <th>DELETE</th>
+             </tr>
+          </thead>
+          <tbody id="bodyy">
+
+          </tbody>
+      </table>
+    </div>
+</div>
+</body>
+<script>
+
+
+    $(document).ready(function(){
+
+     function fetch(a)
+    {
+
+      var bo=document.getElementById("bodyy");
+
+      var req=new XMLHttpRequest();
+
+      req.open("GET","First?name="+a,true);
+
+      req.send();
+
+      req.onreadystatechange=()=>{
+
+       if(req.readyState==4 && req.status==200)
+       {
+        bo.innerHTML="";
+        bo.innerHTML=req.responseText;
+
+       }
+      }
+    }
+    fetch("");
+
+    $("#insert").click(function(e){
+      e.preventDefault();
+      var req=new XMLHttpRequest();
+      var name=$("#name").val();
+      var pass=$("#pass").val();
+      req.open("GET","Second?name="+name+"&pass="+pass+"",true);
+
+      req.send();
+
+      req.onreadystatechange=()=>{
+
+       if(req.readyState==4 && req.status==200)
+       {
+       document.getElementById("message").style.display='Block';
+        document.getElementById("message").innerHTML=req.responseText;
+        document.getElementById("bodyy").innerHTML="";
+        $("#name").val(" ");
+        $("#pass").val(" ");
+        fetch("");
+
+       }
+      }
+    })
+
+
+
+    $(document).on("click","#delete",function(e){
+      e.preventDefault();
+      var req=new XMLHttpRequest();
+      var pass=$(this).data("id");
+      req.open("GET","Delete?pass="+pass+"",true);
+
+      req.send();
+
+      req.onreadystatechange=()=>{
+
+       if(req.readyState==4 && req.status==200)
+       {
+       document.getElementById("message").style.display='Block';
+        document.getElementById("message").innerHTML=req.responseText;
+        document.getElementById("bodyy").innerHTML="";
+
+
+        fetch("");
+
+       }
+      }
+    });
+
+
+
+    $("#insert1").click(function(e){
+      e.preventDefault();
+      var req=new XMLHttpRequest();
+      var name=$("#name1").val();
+      var pass=$("#pass1").val();
+      req.open("GET","Update?name="+name+"&pass="+pass+"",true);
+
+      req.send();
+
+      req.onreadystatechange=()=>{
+
+       if(req.readyState==4 && req.status==200)
+       {
+       document.getElementById("message").style.display='Block';
+        document.getElementById("message").innerHTML=req.responseText;
+        document.getElementById("bodyy").innerHTML="";
+        $("#name1").val(" ");
+        $("#pass1").val(" ");
+        $("#modal").fadeOut();
+
+        fetch("");
+
+       }
+       return false;
+      }
+      return false;
+    });
+
+
+
+
+    $("#searchname").keyup(function(){
+       var a=$("#searchname").val();
+       fetch(a);
+
+    })
+
+
+    });
+
+$(document).ready(function(){
+    $("#close").click(function(){
+       $("#modal").fadeOut();
+    });
+});
+
+
+$(document).ready(function(){
+  $(document).on("click","#update",function(){
+     $("#modal").fadeIn();
+     var a=$(this).data("id");
+     $("#pass1").val(a);
+
+  });
+});
+
+</script>
+</html>

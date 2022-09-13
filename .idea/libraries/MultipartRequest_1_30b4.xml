@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="MultipartRequest-1.30b4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/MultipartRequest-1.30b4.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Downloads/MultipartRequest-1.30b4.zip!/examples/cgi" />
+      <root url="jar://$USER_HOME$/Downloads/MultipartRequest-1.30b4.zip!/examples/servlet" />
+      <root url="jar://$USER_HOME$/Downloads/MultipartRequest-1.30b4.zip!/src" />
+    </SOURCES>
+  </library>
+</component>
